@@ -1,6 +1,11 @@
 from app import create_app
+from config import Config
 
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(
+        host=Config.APP_HOST,
+        port=Config.PORT,
+        debug=Config.FLASK_DEBUG
+    )
