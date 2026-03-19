@@ -1,12 +1,13 @@
 from app.db.database import db
 
-def get_users():
+def get_all_users():
     return db["users"]
 
-def create_user(data):
-    user = {
-        "id": len(db["users"]) + 1,
-        "name": data.get("name")
+def add_user(name: str):
+    users = db["users"]
+    new_user = {
+        "id": len(users) + 1,
+        "name": name
     }
-    db["users"].append(user)
-    return user
+    users.append(new_user)
+    return new_user
