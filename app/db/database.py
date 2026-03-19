@@ -1,4 +1,3 @@
-# Пока просто in-memory "БД"
-db = {
-    "users": []
-}
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()

@@ -1,13 +1,12 @@
 from app.db.database import db
+from app.models.user import User
 
 def get_all_users():
-    return db["users"]
+    users = User.query.all()
+    return [user.to_dict() for user in users]
 
 def add_user(name: str):
-    users = db["users"]
-    new_user = {
-        "id": len(users) + 1,
-        "name": name
-    }
-    users.append(new_user)
-    return new_user
+    user = User(name=name)
+    db.session.add(user)
+    db.session.commit()
+    return user.to_dict()
