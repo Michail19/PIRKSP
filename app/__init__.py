@@ -1,6 +1,6 @@
 import time
 import redis
-from flask import Flask, jsonify
+from flask import Flask, session, jsonify
 from flask_session import Session
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
@@ -44,12 +44,27 @@ def create_app():
         return jsonify({
             "message": "API работает",
             "env": app.config["APP_ENV"],
-            "version": app.config["APP_VERSION"]
+            "version": app.config["APP_VERSION"],
+            "available_routes": [
+                "GET /",
+                "GET /health",
+                "GET /users",
+                "POST /users"
+            ]
         })
 
     @app.route("/health", methods=["GET"])
     def health():
         return jsonify({"status": "ok"})
+
+    @app.route("/login-test")
+    def login_test():
+        session["user"] = "mikhail"
+        return jsonify({"message": "session saved"})
+
+    @app.route("/me")
+    def me():
+        return jsonify({"user": session.get("user")})
 
     app.register_blueprint(user_bp)
     return app
