@@ -9,6 +9,16 @@ class Config:
     FLASK_DEBUG = os.getenv("FLASK_DEBUG", "false").lower() == "true"
 
     DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///local.db")
+    REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+
+    APP_ENV = os.getenv("APP_ENV", "local")
+    APP_VERSION = os.getenv("APP_VERSION", "dev")
 
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    SESSION_TYPE = "redis"
+    SESSION_PERMANENT = False
+    SESSION_USE_SIGNER = True
+
+    SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")

@@ -2,30 +2,30 @@ version: "3.9"
 
 services:
   app:
-    build: .
-#    container_name: pirksp_app
+    image: ghcr.io/michail19/pirksp:${IMAGE_TAG}
     ports:
-      - "${PORT:-5000}:${PORT:-5000}"
+      - "${PORT:-5000}:5000"
     environment:
-      APP_HOST: ${APP_HOST:-0.0.0.0}
-      PORT: ${PORT:-5000}
-      FLASK_DEBUG: ${FLASK_DEBUG:-false}
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@db:5432/pirksp}
+      APP_HOST: 0.0.0.0
+      PORT: 5000
+      FLASK_DEBUG: "false"
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      APP_ENV: staging
+      APP_VERSION: ${IMAGE_TAG}
       SECRET_KEY: ${SECRET_KEY}
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
 
   db:
     image: postgres:16
-    container_name: pirksp_db
-    restart: always
     environment:
       POSTGRES_DB: pirksp
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -33,6 +33,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
+  redis:
+    image: redis:7-alpine
 
 volumes:
   postgres_data:
