@@ -11,7 +11,7 @@ def whoami():
     return jsonify({
         "hostname": os.getenv("HOSTNAME", "unknown"),
         "version": app.config.get("APP_VERSION"),
-        "env": app.config.get("APP_ENV")
+        "env": app.config.get("APP_ENV"),
     })
 
 

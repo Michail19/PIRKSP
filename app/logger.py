@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import sys
 from datetime import datetime, timezone
 
@@ -9,7 +10,7 @@ class JsonFormatter(logging.Formatter):
         log_record = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "level": record.levelname.lower(),
-            "service": "pirksp",
+            "service": getattr(record, "service_name", os.getenv("SERVICE_NAME", "pirksp")),
             "message": record.getMessage(),
         }
 

@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Config:
     APP_HOST = os.getenv("APP_HOST", "0.0.0.0")
     PORT = int(os.getenv("PORT", "5000"))
@@ -13,6 +14,7 @@ class Config:
 
     APP_ENV = os.getenv("APP_ENV", "local")
     APP_VERSION = os.getenv("APP_VERSION", "dev")
+    SERVICE_NAME = os.getenv("SERVICE_NAME", "pirksp")
 
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -22,3 +24,5 @@ class Config:
     SESSION_USE_SIGNER = True
 
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
+
+    SHUTDOWN_TIMEOUT = int(os.getenv("SHUTDOWN_TIMEOUT", "10"))
