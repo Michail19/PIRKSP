@@ -5,6 +5,7 @@ import uuid
 
 import redis
 from flask import Flask, jsonify, g, request, session
+from flask_migrate import Migrate
 from flask_session import Session
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
@@ -15,6 +16,7 @@ from app.routes.user_routes import user_bp
 from app.logger import setup_logger
 
 session_ext = Session()
+migrate = Migrate()
 
 _shutdown_state = {
     "is_shutting_down": False,
@@ -91,6 +93,7 @@ def create_app():
     session_ext.init_app(app)
 
     db.init_app(app)
+    migrate.init_app(app, db)
 
     signal.signal(signal.SIGTERM, _set_shutting_down)
     signal.signal(signal.SIGINT, _set_shutting_down)
@@ -98,7 +101,6 @@ def create_app():
     with app.app_context():
         from app.models.user import User
         wait_for_db(app)
-        db.create_all()
 
     @app.before_request
     def before_request():
@@ -155,11 +157,7 @@ def create_app():
             },
         )
 
-        if not is_shutting_down():
-            decrement_active_requests()
-        else:
-            decrement_active_requests()
-
+        decrement_active_requests()
         return response
 
     @app.teardown_appcontext

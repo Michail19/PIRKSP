@@ -1,6 +1,7 @@
 flask
 python-dotenv
 flask-sqlalchemy
+flask-migrate
 psycopg2-binary
 flask-session
 redis

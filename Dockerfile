@@ -12,4 +12,5 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--graceful-timeout", "10", "--timeout", "30", "wsgi:app"]
+ENTRYPOINT ["python", "cli.py"]
+CMD ["server"]
