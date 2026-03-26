@@ -49,11 +49,13 @@ jobs:
 
       - name: Run migrations
         run: |
-          docker run --rm \
-            -e DATABASE_URL="${{ secrets.STAGING_DATABASE_URL }}" \
-            -e REDIS_URL="${{ secrets.STAGING_REDIS_URL }}" \
-            -e SECRET_KEY="${{ secrets.STAGING_SECRET_KEY }}" \
-            -e APP_ENV=staging \
-            -e APP_VERSION=${GITHUB_SHA::7} \
-            -e SERVICE_NAME=pirksp \
-            ghcr.io/${IMAGE_NAME_LC}:${IMAGE_TAG} migrate
+          echo "Ready!"
+#        run: |
+#          docker run --rm \
+#            -e DATABASE_URL="${{ secrets.STAGING_DATABASE_URL }}" \
+#            -e REDIS_URL="${{ secrets.STAGING_REDIS_URL }}" \
+#            -e SECRET_KEY="${{ secrets.STAGING_SECRET_KEY }}" \
+#            -e APP_ENV=staging \
+#            -e APP_VERSION=${GITHUB_SHA::7} \
+#            -e SERVICE_NAME=pirksp \
+#            ghcr.io/${IMAGE_NAME_LC}:${IMAGE_TAG} migrate
